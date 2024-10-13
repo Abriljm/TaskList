@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "964481696992",
+    "project_id": "examenabril-abd32",
+    "storage_bucket": "examenabril-abd32.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:964481696992:android:8daf70e816516385f83c85",
+        "android_client_info": {
+          "package_name": "com.abril.control_de_tareas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3OQnHEBF5575GJfOe_H3LPrImMm3WrOM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

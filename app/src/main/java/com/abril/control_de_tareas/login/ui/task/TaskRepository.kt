@@ -4,11 +4,16 @@ import com.abril.control_de_tareas.login.data.Task
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
+/**
+ * ************** GESTOR QUE COMUNICA A LA DB FIRESTORE ****************
+ * Se comunica con Firestore para las funciones CRUD.
+ */
 class TaskRepository {
     private val db = FirebaseFirestore.getInstance()
     private val taskCollection = db.collection("tasks")
 
     //Obtener todas las tareas
+
     suspend fun getTasks(): List<Task> {
         return try {
             val query = taskCollection.get().await()
@@ -17,6 +22,7 @@ class TaskRepository {
             emptyList() // Devuelve una lista vacía si ocurre un error
         }
     }
+
     // Agregar una nueva tarea
     suspend fun addTask(task: Task) {
         try {
@@ -51,7 +57,6 @@ class TaskRepository {
             throw e
         }
     }
-
 
     //Borrar tarea
     suspend fun deleteTask(taskId: String) {

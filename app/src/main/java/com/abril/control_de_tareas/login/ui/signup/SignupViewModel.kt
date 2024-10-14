@@ -31,6 +31,13 @@ class SignupViewModel(
     private val _navigationChannel = Channel<String>()
     val navigationFlow = _navigationChannel.receiveAsFlow()
 
+    /**
+     * ************** VALIDAR EMAIL Y PASSWORD  ****************
+     * Se recopila email y password para evaluar si cumplen las características específicas.
+     *
+     * @param email Recibe el email que el usuario ingresa.
+     * @param password Recibe el password que el usuario ingresa.
+     */
     fun onLoginChanged(email: String, password: String) {
         _email.value = email
         _password.value = password
@@ -42,6 +49,10 @@ class SignupViewModel(
     private fun isValidEmail(email: String): Boolean =
         Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
+    /**
+     * ************** CAPTURAR REGISTRO ****************
+     * Se le pasa la información del usuario a la DB.
+     */
     suspend fun onRegisterSelected() {
         try {
             firebaseAuth.createUserWithEmailAndPassword(_email.value ?: "", _password.value ?: "")

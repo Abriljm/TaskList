@@ -36,7 +36,12 @@ import com.abril.control_de_tareas.ui.theme.PurpleButton
 import com.abril.control_de_tareas.ui.theme.Violet
 import kotlinx.coroutines.launch
 
-
+/**
+ * ************** FONDO DE PANTALLA ****************
+ * Se le da un aspecto de gradiante al fondo y se muestra en una columna todos los elementos de sign up.
+ *
+ * @param viewModel Recibe el modelo de datos del sign up.
+ */
 @Composable
 fun SignUpScreen(viewModel: SignupViewModel, navController: NavController){
     Column (
@@ -50,6 +55,10 @@ fun SignUpScreen(viewModel: SignupViewModel, navController: NavController){
     }
 }
 
+/**
+ * ************** ESTRUCTURA DE PANTALLA  ****************
+ * Aquí se estructura el tamaño, color y distribución de todos los elementos de la vista.
+ */
 @Composable
 fun SignUp(
     modifier: Modifier,
@@ -76,7 +85,7 @@ fun SignUp(
     // Mostrar el Toast si hay el registro fue exitoso
     toastMessage?.let {
         Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-        // Reseteamos el valor del toast para que no se vuelva a mostrar
+        // Resetea el valor del toast para que no se vuelva a mostrar.
         viewModel._toastMessage.value = null
     }
 
@@ -106,6 +115,12 @@ fun SignUp(
 
 }
 
+/**
+ * ************** REGISTER BUTTON  ****************
+ * Se habilita cuando el usuario y la contraseña son válidos.
+ * Llama a la función onRegisterSelected() para agregar nuevo usuario en la DB.
+ * @param loginEnable Verifica la información validada.
+ */
 @Composable
 fun RegisterButton(loginEnable: Boolean, onRegisterSelected: () -> Unit) {
     Button(
@@ -140,8 +155,7 @@ fun EmailField(email:String, onTextFieldChanged:(String) -> Unit) {
         placeholder = { Text(text = "Email") },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
         singleLine = true,
-        maxLines = 1,
-        //colors =
+        maxLines = 1
     )
 }
 

@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
                             Log.e("Abril","Sesión ya iniciada, Navegar a Task")
                         } else {
                             navHostController.navigate("login"){
-                                popUpTo("tasks") { inclusive = true } //evitar error con el botón back
+                                popUpTo("tasks") { inclusive = true }
                             }
                             Log.e("Abril","Sesión NO iniciada aún, Navegar a login")
                         }

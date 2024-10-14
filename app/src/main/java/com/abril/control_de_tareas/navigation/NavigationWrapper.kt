@@ -1,6 +1,5 @@
 package com.abril.control_de_tareas.navigation
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
@@ -48,9 +47,20 @@ fun NavigationWrapper(
         }
         composable(
             route = "editTaskScreen/{taskId}",
+            // Define "taskId" como argumento de tipo String en la navegación
             arguments = listOf(navArgument("taskId") { type = NavType.StringType })
         ) { backStackEntry ->
-            val taskId = backStackEntry.arguments?.getString("taskId") ?: ""
+            // Recupera el valor de "taskId" de los argumentos de la entrada de backStack
+            // Si es nulo, asigna una cadena vacía por defecto
+            val taskId = backStackEntry.arguments?.getString("taskId")
+
+            if (taskId.isNullOrEmpty()) {
+                // Manejar el caso en el que el taskId no es válido, navegar de regreso
+                navHostController.popBackStack()
+            } else {
+                EditTaskScreen(taskId = taskId, taskViewModel, navHostController)
+            }
+
             EditTaskScreen(taskId = taskId, taskViewModel, navHostController)
         }
     }

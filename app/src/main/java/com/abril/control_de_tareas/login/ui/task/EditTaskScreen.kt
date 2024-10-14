@@ -22,6 +22,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -45,7 +46,9 @@ fun EditTaskScreen(
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     var isCompleted by remember { mutableStateOf(false) }
+    val errorMessage: String? by viewModel.errorMessage.observeAsState(null)
 
+    //Obtiene la información registrada según el Id
     LaunchedEffect(taskId) {
         Log.e("Abril", "$taskId")
         taskId?.let {
@@ -72,6 +75,7 @@ fun EditTaskScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+            //Cada campo se llena con la info existente de la tarea.
             TextField(
                 value = title,
                 onValueChange = { title = it },
@@ -110,7 +114,6 @@ fun EditTaskScreen(
                 Text("Save")
             }
             Spacer(modifier = Modifier.height(8.dp))
-
             //Delete Button
             Button(
                 onClick = {

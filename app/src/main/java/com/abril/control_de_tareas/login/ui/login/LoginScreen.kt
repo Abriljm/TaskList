@@ -40,7 +40,12 @@ import com.abril.control_de_tareas.ui.theme.Violet
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
-
+/**
+ * ************** FONDO DE PANTALLA ****************
+ * Se le da un aspecto de gradiante al fondo y se muestra en una columna todos los elementos de Login.
+ *
+ * @param viewModel Recibe el modelo de datos del login
+ */
 @Composable
 fun LoginScreen(viewModel: LoginViewModel, navController: NavController){
     Column (
@@ -54,6 +59,10 @@ fun LoginScreen(viewModel: LoginViewModel, navController: NavController){
     }
 }
 
+/**
+ * ************** ESTRUCTURA DE PANTALLA  ****************
+ * Aquí se estructura el tamaño, color y distribución de todos los elementos de la vista login.
+ */
 @Composable
 fun Login(
     modifier: Modifier,
@@ -109,6 +118,10 @@ fun Login(
 
 }
 
+/**
+ * ************** SIGN UP BUTTON ****************
+ * Cuando se pulsa se le llama a onRegisterSelected() en el LoginViewModel para navegar a la pantalla sign up.
+ */
 @Composable
 fun SignUpButton(onRegisterSelected: () -> Unit) {
     Button(
@@ -122,7 +135,12 @@ fun SignUpButton(onRegisterSelected: () -> Unit) {
     }
 }
 
-
+/**
+ * ************** LOGIN BUTTON  ****************
+ * Se habilita cuando el usuario y la contraseña son válidos.
+ * Llama a la función onLoginSelected() para evaluar si la autenticación es correcta.
+ * @param loginEnable Verifica la información validada.
+ */
 @Composable
 fun LoginButton(loginEnable: Boolean, onLoginSelected: () -> Unit) {
     Button(onClick = { onLoginSelected() },
@@ -167,8 +185,7 @@ fun EmailField(email:String, onTextFieldChanged:(String) -> Unit) {
         placeholder = { Text(text = "Email") },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
         singleLine = true,
-        maxLines = 1,
-        //colors =
+        maxLines = 1
     )
 }
 

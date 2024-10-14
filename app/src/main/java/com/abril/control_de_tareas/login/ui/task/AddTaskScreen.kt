@@ -11,12 +11,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -35,6 +37,7 @@ import com.abril.control_de_tareas.ui.theme.PurpleButton
 fun AddTaskScreen(viewModel: TaskViewModel, navController: NavController) {
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
+    val errorMessage: String? by viewModel.errorMessage.observeAsState(null)
 
     Scaffold(
         topBar = {
@@ -75,7 +78,8 @@ fun AddTaskScreen(viewModel: TaskViewModel, navController: NavController) {
                 navController.popBackStack() // Regresa a TaskScreen
             },
                 modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(containerColor = BlueButton )
+                colors = ButtonDefaults.buttonColors(containerColor = BlueButton ),
+                enabled = title.isNotEmpty() // Deshabilitar si el título está vacío
             ) {
                 Text("Add Task")
             }

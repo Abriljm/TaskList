@@ -17,26 +17,33 @@ import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.abril.control_de_tareas.R
 import com.abril.control_de_tareas.login.data.Task
 import com.abril.control_de_tareas.ui.theme.BabyBlue
 import com.abril.control_de_tareas.ui.theme.Violet
@@ -52,14 +59,23 @@ fun TaskScreen(viewModel: TaskViewModel, navController: NavController) {
     val filteredTaskList: List<Task> by viewModel.filteredTaskList.collectAsState()
     var filterCompleted by remember { mutableStateOf(false) }
 
+    //Muestra la lista de tareas actualizada cuando se renderiza la pantalla.
     LaunchedEffect(Unit) {
         viewModel.loadTasks()
     }
 
+    /**
+     * ************** ESTRUCTURA DE LA PANTALLA ****************
+     * Se estructura cada elemento de la pantalla, como la lista de tareas con lazyColumn y los floatingActionButton.
+     */
     Scaffold (
         topBar = {
             TopAppBar(
-                title = { Text("Tasks") },
+                title = { Text(
+                    text = "Tasks",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
+                ) },
                 actions = {
                     IconButton(onClick = {
                         FirebaseAuth.getInstance().signOut()
@@ -69,7 +85,10 @@ fun TaskScreen(viewModel: TaskViewModel, navController: NavController) {
                     }) {
                         Icon(imageVector = Icons.Default.ExitToApp, contentDescription = "Logout")
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = BabyBlue
+                )
             )
         },
         floatingActionButton = {
@@ -86,7 +105,10 @@ fun TaskScreen(viewModel: TaskViewModel, navController: NavController) {
                     filterCompleted = !filterCompleted
                     viewModel.applyFilter(showCompleted = filterCompleted)
                 }) {
-                    Icon(imageVector = Icons.Default.List, contentDescription = "Filter")
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_filter),
+                        contentDescription = "Filter"
+                    )
                 }
 
                 FloatingActionButton(
@@ -112,11 +134,22 @@ fun TaskScreen(viewModel: TaskViewModel, navController: NavController) {
             } else {
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
                     items(displayList) { task ->
-                        TaskItem(task = task, onTaskClicked = {
-                            navController.navigate("editTaskScreen/${task.id}")
-                        }, onCheckedChanged = { checked ->
-                            viewModel.updateTaskStatus(task, checked)
-                        })
+                        Column {
+                            TaskItem(
+                                task = task,
+                                onTaskClicked = {
+                                    navController.navigate("editTaskScreen/${task.id}")
+                                },
+                                onCheckedChanged = { checked ->
+                                    viewModel.updateTaskStatus(task, checked)
+                                }
+                            )
+                            HorizontalDivider(
+                                modifier = Modifier.padding(horizontal = 8.dp),
+                                thickness = 1.dp,
+                                color = Color.LightGray
+                            )
+                        }
                     }
                 }
             }
@@ -124,7 +157,10 @@ fun TaskScreen(viewModel: TaskViewModel, navController: NavController) {
     }
 }
 
-
+/**
+ * ************** ELEMENTOS QUE CONTIENE CADA TAREA  ****************
+ * Aquí se organizan los elementos de cada tareas, como título, descripción y checkbox.
+ */
 @Composable
 fun TaskItem(
     task: Task,
